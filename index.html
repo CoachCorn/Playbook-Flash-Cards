@@ -319,7 +319,7 @@ function loginView(){
     return h;
   }
   if(roster===null&&!rosterErr)return h+'<div class="empty">Loading the roster…</div>';
-  if(rosterErr)h+='<div class="notice">Could not load the roster. Check your signal, or add yourself below.</div>';
+  if(rosterErr)h+='<div class="notice">Could not load the roster. Check your signal, or add yourself below.<div class="small muted" style="margin-top:6px">Detail: '+esc(String(rosterErr))+(window.google&&google.script&&google.script.run?' (Google route)':' (direct)')+'</div></div>';
   if(roster&&roster.length){
     h+='<div class="panel"><label class="lbl" for="flt">Find your name</label><input id="flt" type="text" autocomplete="off" value="'+esc(filter)+'" style="margin:8px 0 12px"><div class="stack" id="rlist">'+rosterList()+'</div></div>';
   } else if(roster){
@@ -493,7 +493,7 @@ document.addEventListener("input",function(e){
 function loadRoster(){
   if(!ENDPOINT)return;
   roster=null;rosterErr=false;
-  getJSON({action:"roster"}).then(function(r){roster=Array.isArray(r)?r.map(function(x){return {name:x.name,pos:np(x.pos)}}):[];if(view==="login")render()}).catch(function(){rosterErr=true;roster=[];if(view==="login")render()});
+  getJSON({action:"roster"}).then(function(r){roster=Array.isArray(r)?r.map(function(x){return {name:x.name,pos:np(x.pos)}}):[];if(view==="login")render()}).catch(function(err){rosterErr=String((err&&(err.message||err))||"unknown");roster=[];if(view==="login")render()});
 }
 
 /* ===== Boot ===== */
