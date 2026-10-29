@@ -294,9 +294,11 @@ function saveEvents(){lsSet(evKey(),JSON.stringify(events))}
 /* ===== Network ===== */
 function getJSON(params){
   var qs=Object.keys(params).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(params[k])}).join("&");
+  if(window.google&&google.script&&google.script.run)return new Promise(function(res,rej){google.script.run.withSuccessHandler(res).withFailureHandler(rej).apiGet(params)});
   return fetch(ENDPOINT+(ENDPOINT.indexOf("?")>-1?"&":"?")+qs).then(function(r){return r.json()});
 }
 function postJSON(obj){
+  if(window.google&&google.script&&google.script.run)return new Promise(function(res,rej){google.script.run.withSuccessHandler(res).withFailureHandler(rej).apiPost(JSON.stringify(obj))});
   return fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(obj)}).then(function(r){if(!r.ok)throw new Error("http "+r.status);return r.text()});
 }
 function flush(){
