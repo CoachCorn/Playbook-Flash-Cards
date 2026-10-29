@@ -424,7 +424,7 @@ function coachView(){
   stats.sort(function(a,b){return b.w/b.t-a.w/a.t||b.w-a.w});
   h+='<div class="panel"><h2 style="font-size:22px;margin-bottom:12px">Cards the team misses most</h2>';
   if(!stats.length)h+='<div class="empty">No misses yet.</div>';
-  else h+='<div class="hard">'+stats.slice(0,6).map(function(s){return '<div class="item"><span class="pct">'+Math.round(s.w/s.t*100)+'%</span><span>'+esc(s.c.q)+' <span class="muted small">('+esc(s.c.pos.join(", "))+' · '+s.w+' missed of '+s.t+')</span></span></div>'}).join("")+'</div>';
+  else h+='<div class="hard">'+stats.slice(0,6).map(function(s){return '<div class="item"><span class="pct">'+Math.round(s.w/s.t*100)+'%</span><span>'+esc(s.c.q)+' <b>→ '+esc(s.c.a)+'</b> <span class="muted small">('+esc(s.c.pos.join(", "))+' · '+s.w+' missed of '+s.t+')</span></span></div>'}).join("")+'</div>';
   h+='</div><button class="btn alt" data-act="coachgo">Refresh</button>';
   return h;
 }
