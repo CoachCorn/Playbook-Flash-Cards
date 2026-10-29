@@ -1,3 +1,3 @@
 # Playbook Flash Cards
 
-Deer Creek football playbook flashcards
+Football playbook flashcards with progress tracking. The page is index.html, served by GitHub Pages.
