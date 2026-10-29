@@ -124,7 +124,7 @@ var PLAYS={
   race:{name:"Race (Cross)",form:"Crown Lt",img:im("race")},
   lr:{name:"Laser Race",form:"Trips Rt",img:im("lr")}
 };
-var DECKS=[{id:"base",title:"Base Offense"}];
+var DECKS=[{id:"run1",title:"Run 1"},{id:"run2",title:"Run 2"},{id:"pass1",title:"Pass 1"},{id:"pass2",title:"Pass 2"}];
 function C(id,pos,q,a,wrong,o){o=o||{};var c={id:id,deck:"base",pos:pos,q:q,a:a,opts:[a].concat(wrong)};for(var k in o)c[k]=o[k];return c}
 function rot(a,n){n=n%Math.max(a.length,1);return a.slice(n).concat(a.slice(0,n))}
 
@@ -244,6 +244,16 @@ CARDS.push(
   C("tg-which-left",ALL,"Which tag sends T on a fake flat to the left?","Shield",["Sword","Lead"],{cap:["Day 3 tags"],back:"Shield: Tells T to play fake FLAT to the LEFT. Sword is to the RIGHT"}),
   C("tg-which-right",ALL,"Which tag sends T on a fake flat to the right?","Sword",["Shield","Lead"],{cap:["Day 3 tags"],back:"Sword: Tells T to play fake FLAT to the RIGHT. Shield is to the LEFT"})
 );
+
+/* ===== Install assignment: change this one function to move cards between decks ===== */
+function deckOf(c){
+  var id=c.id;
+  if(id.indexOf("fm-")===0||id.indexOf("ow-m-")===0)return "run1";
+  if(id.indexOf("ow-s-")===0||id.indexOf("tg-")===0||id.indexOf("ow-tag-")===0)return "run2";
+  if(id.indexOf("lap-")===0||id.indexOf("race-")===0||id.indexOf("lr-")===0||id.indexOf("d-lap-")===0||id==="d-curl"||id==="d-deepout")return "pass2";
+  return "pass1";
+}
+CARDS.forEach(function(c){c.deck=deckOf(c)});
 
 /* ===== Helpers ===== */
 var $app=document.getElementById("app");
