@@ -260,6 +260,7 @@ CARDS.forEach(function(c){c.deck=deckOf(c)});
 var $app=document.getElementById("app");
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function today(){var d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function normDay(d,t){var s=String(d==null?"":d),m=s.match(/^(\d{4}-\d{2}-\d{2})/);if(m)return m[1];var ms=Date.parse(s);if(isNaN(ms))ms=+t;if(!ms)return "";var x=new Date(ms);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")}
 function daysAgo(s){if(!s)return "Never";var a=new Date(s+"T00:00:00"),b=new Date(today()+"T00:00:00");var n=Math.round((b-a)/864e5);return n<=0?"Today":n===1?"Yesterday":n+" days ago"}
 function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
 function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
@@ -401,7 +402,7 @@ function coachView(){
   }
   var byName={};
   coachData.roster.forEach(function(r){byName[r.name.toLowerCase()]={name:r.name,pos:r.pos,evs:[]}});
-  coachData.log.forEach(function(r){var k=String(r.name).toLowerCase();if(!byName[k])byName[k]={name:r.name,pos:r.pos,evs:[]};byName[k].evs.push({c:r.card,ok:+r.ok,d:r.day,t:+r.t||Date.parse(r.ts)||0})});
+  coachData.log.forEach(function(r){var k=String(r.name).toLowerCase();if(!byName[k])byName[k]={name:r.name,pos:r.pos,evs:[]};byName[k].evs.push({c:r.card,ok:+r.ok,d:normDay(r.day,+r.t||Date.parse(r.ts)||0),t:+r.t||Date.parse(r.ts)||0})});
   var rows=Object.keys(byName).map(function(k){
     var p=byName[k], m=derive(p.evs), n=cardsFor(p.pos).length, k2=mastered(m,p.pos), a=p.evs.length, last=null;
     p.evs.forEach(function(e){if(!last||e.d>last)last=e.d});
